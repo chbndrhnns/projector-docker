@@ -59,7 +59,7 @@ RUN mv projector-server $PROJECTOR_DIR/ide/projector-server
 RUN mv $PROJECTOR_DIR/ide-projector-launcher.sh $PROJECTOR_DIR/ide/bin
 RUN chmod 644 $PROJECTOR_DIR/ide/projector-server/lib/*
 
-FROM debian:10
+FROM debian:11
 
 RUN true \
 # Any command which returns non-zero exit code will cause this shell script to exit immediately:
@@ -68,12 +68,14 @@ RUN true \
    && set -x \
 # install packages:
     && apt-get update \
+# jdk \
+    && apt-get -y install openjdk-11-jdk \
 # packages for awt:
-    && apt-get install libxext6 libxrender1 libxtst6 libxi6 libfreetype6 -y \
+    && apt-get -y install libxext6 libxrender1 libxtst6 libxi6 libfreetype6 -y \
 # packages for user convenience:
-    && apt-get install git bash-completion sudo -y \
+    && apt-get -y install git bash-completion sudo -y \
 # packages for IDEA (to disable warnings):
-    && apt-get install procps -y \
+    && apt-get -y install procps -y \
 # clean apt to reduce image size:
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
